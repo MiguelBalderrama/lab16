@@ -45,9 +45,12 @@ class myApp(object):
         global drawpad
         global enemy
         global direction
+        global 
         global rocket
         global rocketfired
         x1,y1,x2,y2 = drawpad.coords(enemy)
+        px1,py1,px2,py2 = drawpad.coords(player)
+        rx1,ry1,rx2,ry2 = drawpad.coords(rocket)
         if x2 > 800:
             direction = - 5
         elif x1 < 0:
@@ -55,6 +58,9 @@ class myApp(object):
         drawpad.move(enemy, direction, 0)
         if rocketfired == True:
             drawpad.move(rocket, 0, -10)
+        if rx1 <= 0:
+            drawpad.move(rocket, px1 - rx1, py1 - ry1)
+            
         drawpad.after(5,self.animate)
 
     def key(self,event):
