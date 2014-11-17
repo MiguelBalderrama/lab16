@@ -45,7 +45,6 @@ class myApp(object):
         global drawpad
         global enemy
         global direction
-        global 
         global rocket
         global rocketfired
         x1,y1,x2,y2 = drawpad.coords(enemy)
@@ -58,13 +57,18 @@ class myApp(object):
         drawpad.move(enemy, direction, 0)
         if rocketfired == True:
             drawpad.move(rocket, 0, -10)
-        if rx1 <= 0:
+            self.collisionDetect()
+        if ry1 <= 0:
+            x = px1 - rx1
+            y = py1 - ry1
             drawpad.move(rocket, px1 - rx1, py1 - ry1)
+            rocketfired = False
             
         drawpad.after(5,self.animate)
 
     def key(self,event):
         global player
+        global rockets
         global rocket
         global rocketfired
         x1,x2,y1,y2 = drawpad.coords(player)
@@ -95,10 +99,14 @@ class myApp(object):
         if event.char == " ":
             rocketfired = True
             rockets = rockets - 1
+            self.rocketsTxt.configure(rext = str(rockets))
         
-    def collisionDetect(self,rocket):
+    def collisionDetect(self):
+        global enemy
+        global rocket
+        global drawpad
         rx1,ry1,rx2,ry2 = drawpad.coords(rocket)
-        x1, y1
+        x1, y1, x2, y2 = drawpad.coords(enemy)
         if (rx1 >= x1 and rx2 < x2) and (ry1 >= y1 and ry2 <= y2):
             drawpad.delete(enemy)
             
